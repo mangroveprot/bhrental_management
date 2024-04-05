@@ -1,7 +1,8 @@
 <?php
-$error = isset($_GET['error']) ? htmlspecialchars($_GET['error']) : '';
-
+if (isset($_GET['error'])) {
+    $error = $_GET['error'];
+}
 if (!empty($error)) {
-    echo '<p class="error">' . $error . '</p>';
+    echo '<p class="error">' . htmlspecialchars($error) . '</p>';
 }
 ?>
