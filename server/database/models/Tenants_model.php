@@ -1,0 +1,26 @@
+<?php
+
+require_once dirname(__DIR__, 2) . '/database/db_connections.php';
+
+class TenantsModel
+{
+    private $connect;
+
+    public function __construct()
+    {
+        $this->connect = connections();
+    }
+
+    public function getAllTenants()
+    {
+        try {
+            $stmt = $this->connect->query('SELECT * FROM customer');
+            $tenants = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $tenants;
+        } catch (PDOException $e) {
+            throw new Exception("Error fetching tenants: " . $e->getMessage());
+        }
+    }
+}
+
+?>

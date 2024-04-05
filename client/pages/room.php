@@ -1,7 +1,13 @@
 <?php
-include ('../../server/database/models/Room_models.php');
+include ('../../server/database/models/Room_model.php');
 $roomModel = new RoomModel();
-$rooms = $roomModel->getRooms();
+$error = "";
+try {
+    $rooms = $roomModel->getRooms();
+} catch (Exception $e) {
+    $error = 'Error: ' . $e->getMessage();
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -14,15 +20,13 @@ $rooms = $roomModel->getRooms();
 </head>
 
 <body>
-<nav>
-    <ul>
-        <li><a href="">Rooms</a></li>
-        <li><a href="#">Beds</a></li>
-    </ul>
-</nav>  
-</nav>  
+    <?php include_once ('../includes/navbar.php'); ?>
+    <h2>Room Availability</h2>
+    <?php
+    //Responsible for any notifications to display if it has a value to set.
+    include_once ('../includes/messageHandler.php');
+    ?>
     <?php if (!empty($rooms)): ?>
-        <h2>Room Availability</h2>
         <table>
             <thead>
                 <tr>
@@ -43,6 +47,7 @@ $rooms = $roomModel->getRooms();
                         <td>
                             <?php echo $room['availability']; ?>
                         </td>
+                        <td><a href="BedRoom.php?room_id=<?php echo $room['room_id']; ?>">Show Details</a></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
