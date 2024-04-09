@@ -3,7 +3,7 @@ function connections()
 {
     $servername = "localhost";
     $username = "root";
-    $password = "";
+    $password = "jojogret";
     $database = "boarding_house";
 
     try {

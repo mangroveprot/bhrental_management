@@ -21,6 +21,21 @@ class TenantsModel
             throw new Exception("Error fetching tenants: " . $e->getMessage());
         }
     }
+    public function getTenantsByID($tenantID)
+    {
+        if (empty($tenantID)) {
+            throw new Exception("No Tenant ID included!");
+        }
+        try {
+            $stmt = $this->connect->prepare('SELECT * FROM customer WHERE customer_id = :customerID');
+            $stmt->bindParam(':customerID', $tenantID);
+            $stmt->execute();
+            $tenants = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $tenants;
+        } catch (PDOException $e) {
+            throw new Exception("Error fetching tenants: " . $e->getMessage());
+        }
+    }
 }
 
 ?>

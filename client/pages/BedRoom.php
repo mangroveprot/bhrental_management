@@ -1,5 +1,5 @@
 <?php
-include '../../server/database/models/Beds_model.php';
+include '../../server/database/models/beds_model.php';
 $bedModel = new BedModel();
 $error = "";
 $beds = [];

@@ -15,7 +15,7 @@ class RoomModel
         $rooms = [];
 
         try {
-            $stmt = $this->connect->query('SELECT * FROM Room');
+            $stmt = $this->connect->query('SELECT * FROM room');
             $rooms = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             foreach ($rooms as &$room) {
@@ -50,7 +50,7 @@ class RoomModel
     public function addRoom($roomName)
     {
         try {
-            $stmt = $this->connect->prepare('INSERT INTO Room (room_name) VALUES (:roomName)');
+            $stmt = $this->connect->prepare('INSERT INTO room (room_name) VALUES (:roomName)');
             $stmt->bindParam(':roomName', $roomName);
             $stmt->execute();
             return true;
@@ -63,7 +63,7 @@ class RoomModel
     public function removeRoom($roomId)
     {
         try {
-            $stmt = $this->connect->prepare('DELETE FROM Room WHERE room_id = :roomId');
+            $stmt = $this->connect->prepare('DELETE FROM room WHERE room_id = :roomId');
             $stmt->bindParam(':roomId', $roomId);
             $stmt->execute();
             return true;

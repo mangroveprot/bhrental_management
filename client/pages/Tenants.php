@@ -1,5 +1,5 @@
 <?php
-include ('../../server/database/models/Tenants_model.php');
+include ('../../server/database/models/tenants_model.php');
 $tenantsModel = new TenantsModel();
 $error = "";
 try {

@@ -1,5 +1,5 @@
 <?php
-include ('../../server/database/models/Room_model.php');
+include ('../../server/database/models/rooms_model.php');
 $roomModel = new RoomModel();
 $error = "";
 try {
