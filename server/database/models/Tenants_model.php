@@ -36,6 +36,23 @@ class TenantsModel
             throw new Exception("Error fetching tenants: " . $e->getMessage());
         }
     }
+
+    public function addNewTenants($firstName, $lastName, $contactNumber, $gender)
+    {
+        try {
+            $stmt = $this->connect->prepare('INSERT INTO customer (first_name, last_name, contact_number, gender) VALUES (:firstName, :lastName, :contactNumber, :gender)');
+            $stmt->bindParam(':firstName', $firstName);
+            $stmt->bindParam(':lastName', $lastName);
+            $stmt->bindParam(':contactNumber', $contactNumber);
+            $stmt->bindParam(':gender', $gender);
+            $stmt->execute();
+            return true;
+        } catch (PDOException $e) {
+            throw new Exception("Error adding new tenant: " . $e->getMessage());
+            return false;
+        }
+    }
+
 }
 
 ?>

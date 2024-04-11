@@ -3,5 +3,10 @@
     "lib/**/*.jar",
     "c:\\Users\\Me\\Downloads\\mysql-connector-j-8.3.0\\mysql-connector-j-8.3.0.jar"
   ],
-  "java.debug.settings.onBuildFailureProceed": true
+  "java.debug.settings.onBuildFailureProceed": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "[php]": {
+    "editor.defaultFormatter": "DEVSENSE.phptools-vscode"
+  }
 }

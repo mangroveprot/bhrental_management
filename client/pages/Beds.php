@@ -16,6 +16,15 @@ try {
     $error = 'Error fetching bed data: ' . $e->getMessage();
 }
 
+if (isset($tenantsID)) {
+    try {
+        $tenants = $tenantsModel->getTenantsByID($tenantsID);
+        print_r($tenants);
+    } catch (Exception $e) {
+        echo 'Error fetching tenant details: ' . $e->getMessage();
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -68,7 +77,7 @@ try {
                             $removeUrl = $_SERVER["PHP_SELF"] . "?bedID=" . $bed['beds_id'];
                             ?>
                             <a href="<?= $customerUrl ?>" onclick="openDetailsModal()">Details</a> |
-                            <a href="<?= $removeUrl ?>" onclick="openRemoveModal()">Delete</a>
+                            <a href="<?= $removeUrl ?>" onclick="openRemoveModal()">Remove</a>
                         <?php else: ?>
                             <p>Add</p>
                         <?php endif; ?>
@@ -84,16 +93,38 @@ try {
         style="<?php echo isset($tenantsID) ? 'display: block;' : 'display: none;'; ?>">
         <div class="details-modal-content">
             <span class="close" onclick="closeDetailsModal()">&times;</span>
-            <?php
-            if (isset($tenantsID)) {
-                try {
-                    $tenants = $tenantsModel->getTenantsByID($tenantsID);
-                    print_r($tenants);
-                } catch (Exception $e) {
-                    echo 'Error fetching tenant details: ' . $e->getMessage();
-                }
-            }
-            ?>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Customer ID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Contact Number</th>
+                        <th>Gender</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($tenants as $tenant): ?>
+                        <tr>
+                            <td>
+                                <?php echo $tenant['customer_id']; ?>
+                            </td>
+                            <td>
+                                <?php echo $tenant['first_name']; ?>
+                            </td>
+                            <td>
+                                <?php echo $tenant['last_name']; ?>
+                            </td>
+                            <td>
+                                <?php echo $tenant['contact_number']; ?>
+                            </td>
+                            <td>
+                                <?php echo $tenant['gender']; ?>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
         </div>
     </div>
 
@@ -105,7 +136,7 @@ try {
                 Are you sure you want to remove this tenant?
             </p>
             <button class="btn"><a
-                    href="../../server/app/removeTenantsHandler.php?bedID=<?php echo $bedID; ?>">Delete</a></button>
+                    href="../../server/app/removeTenantsHandler.php?bedID=<?php echo $bedID; ?>">Remove</a></button>
             <button onclick="closeRemoveModal()">Cancel</button>
         </div>
     </div>

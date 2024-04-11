@@ -2,7 +2,7 @@
 session_start();
 //include ('../database/models/diaries_model.php');
 
-class RemoveHandler
+class RemoveTenantsHandler
 {
     public function removeTenantFromBed()
     {
@@ -32,6 +32,6 @@ class RemoveHandler
     }
 }
 
-$handler = new RemoveHandler();
+$handler = new RemoveTenantsHandler();
 $handler->removeTenantFromBed();
 ?>

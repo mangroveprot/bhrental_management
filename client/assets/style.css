@@ -1,3 +1,31 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+div.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: #f0f0f0;
+}
+h1 {
+  margin: 0;
+}
+button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  border: none;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+button a {
+  text-decoration: none;
+  color: inherit;
+}
+
 table {
   border-collapse: collapse;
   width: 100%;
@@ -40,4 +68,14 @@ th {
   padding: 20px;
   border: 1px solid #888;
   width: 80%;
+}
+
+.addTenant-modal-content {
+  background-color: #fefefe;
+  margin: 5% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  height: 80%;
+  overflow: auto;
 }
