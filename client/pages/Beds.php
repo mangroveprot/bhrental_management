@@ -1,5 +1,7 @@
 <?php
-session_start();
+if (!isset($_SESSION)) {
+    session_start();
+}
 include ('../../server/database/models/tenants_model.php');
 include '../../server/database/models/beds_model.php';
 $bedModel = new BedModel();

@@ -7,6 +7,7 @@ try {
 } catch (Exception $e) {
     $error = 'Error fetching tenants data: ' . $e->getMessage();
 }
+
 ?>
 
 <!DOCTYPE html>

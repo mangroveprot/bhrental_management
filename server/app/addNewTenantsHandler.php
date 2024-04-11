@@ -1,17 +1,7 @@
 <?php
 session_start();
 
-$file_path = dirname(__DIR__) . '/database/models/tenants_modal.php';
-
-if (file_exists($file_path)) {
-    echo "The file exists.";
-    return;
-} else {
-    echo "The file does not exist.";
-    return;
-}
-
-include_once ('../database/models/tenants_modal.php');
+include_once dirname(__DIR__) . '/database/models/tenants_model.php';
 
 class AddNewTenants
 {
@@ -31,7 +21,7 @@ class AddNewTenants
                 if ($success) {
                     $successMessage = "Tenant $firstName $lastName added successfully";
                     $encodedSuccessMessage = urlencode($successMessage);
-                    $_SESSION['success'] = $successMessage;
+                    $_SESSION['successMessage'] = $successMessage;
                     header("Location: ../../client/pages/Tenants.php?success=" . $encodedSuccessMessage);
                     exit();
                 } else {

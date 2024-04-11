@@ -1,21 +1,26 @@
 <?php
-$succesMessage = isset($_SESSION['succesMessage']) ? $_SESSION['succesMessage'] : '';
-unset($_SESSION['succesMessage']);
+if (!isset($_SESSION)) {
+    session_start();
+}
+
+$succesMessage = isset($_SESSION['successMessage']) ? $_SESSION['successMessage'] : '';
 
 $error = isset($_SESSION['error']) ? $_SESSION['error'] : '';
-unset($_SESSION['succesMessage']);
 
 if (!empty($error)) {
     echo '<p class="error">' . htmlspecialchars($error) . '</p>';
 }
 if (!empty($succesMessage)) {
-    echo '<p class="succesMessage">' . htmlspecialchars($succesMessage) . '</p>';
+    echo '<p class="successMessage">' . htmlspecialchars($succesMessage) . '</p>';
 }
+
+unset($_SESSION['error']);
+unset($_SESSION['successMessage']);
 ?>
 
 <script>
     function hideMessages() {
-        var notifications = document.querySelectorAll('.error, .succesMessage');
+        var notifications = document.querySelectorAll('.error, .successMessage');
         notifications.forEach(function (notification) {
             setTimeout(function () {
                 notification.style.display = 'none';

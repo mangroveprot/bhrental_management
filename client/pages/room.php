@@ -1,4 +1,8 @@
 <?php
+if (!isset($_SESSION)) {
+    session_start();
+}
+
 include ('../../server/database/models/rooms_model.php');
 $roomModel = new RoomModel();
 $error = "";
