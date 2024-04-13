@@ -21,7 +21,7 @@ class RemoveTenantsHandler
             // } catch (Exception $e) {
             //     $_SESSION['err_message'] = "Error: " . $e->getMessage();
             // }
-            $_SESSION['succesMessage'] = "Succesfully Remove!";
+            $_SESSION['successMessage'] = "Succesfully Remove!";
             header("Location: ../../client/pages/Beds.php");
             exit();
         } else {

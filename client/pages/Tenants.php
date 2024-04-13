@@ -1,4 +1,7 @@
 <?php
+if (!isset($_SESSION)) {
+    session_start();
+}
 include ('../../server/database/models/tenants_model.php');
 $tenantsModel = new TenantsModel();
 $error = "";

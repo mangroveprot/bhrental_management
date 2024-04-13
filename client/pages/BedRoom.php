@@ -1,4 +1,7 @@
 <?php
+if (!isset($_SESSION)) {
+    session_start();
+}
 include '../../server/database/models/beds_model.php';
 $bedModel = new BedModel();
 $error = "";

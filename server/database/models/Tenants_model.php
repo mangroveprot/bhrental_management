@@ -13,6 +13,7 @@ class TenantsModel
 
     public function getAllTenants()
     {
+        $tenants = [];
         try {
             $stmt = $this->connect->query('SELECT * FROM customer');
             $tenants = $stmt->fetchAll(PDO::FETCH_ASSOC);
