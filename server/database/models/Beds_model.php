@@ -55,6 +55,21 @@ class BedModel
         }
     }
 
+    public function assignCustomerToBed($bedId, $customerId)
+    {
+        try {
+            $stmt = $this->connect->prepare('UPDATE beds SET customer_id = :customerId WHERE beds_id = :bedId');
+            $stmt->bindParam(':customerId', $customerId);
+            $stmt->bindParam(':bedId', $bedId);
+            $stmt->execute();
+            return true;
+        } catch (PDOException $e) {
+            throw new Exception("Error assigning customer to bed: " . $e->getMessage());
+            return false;
+        }
+    }
+
+
     // You can add more methods as needed for updating beds, fetching specific beds, etc.
 }
 ?>

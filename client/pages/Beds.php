@@ -3,9 +3,12 @@ if (!isset($_SESSION)) {
     session_start();
 }
 include ('../../server/database/models/tenants_model.php');
-include '../../server/database/models/beds_model.php';
+include ('../../server/database/models/beds_model.php');
+include ('../../server/app/actionsHandler.php');
+
 $bedModel = new BedModel();
 $tenantsModel = new TenantsModel();
+$handlers = new Handlers();
 $error = "";
 $succesMessage = "";
 $beds = [];
@@ -13,17 +16,47 @@ $tenants = [];
 $tenantsID = isset($_GET['tenantsID']) ? $_GET['tenantsID'] : null;
 $bedID = isset($_GET['bedID']) ? $_GET['bedID'] : null;
 
+//Fetch AllBeds
 try {
     $beds = $bedModel->getAllBeds();
 } catch (Exception $e) {
     $error = 'Error fetching bed data: ' . $e->getMessage();
 }
 
+//add tenants in bed
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['addTenant'], $_POST['customer_id'], $_POST['names'])) {
+    $customerId = $_POST['customer_id'];
+    $bedID = $_POST['bed_id'];
+    $names = $_POST['names'];
+    $handlers->addTenantInBed($customerId, $bedID, $names);
+    header("Location: {$_SERVER['PHP_SELF']}");
+    exit();
+}
+
+// Check if form on Adding Tenant is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['first_name'], $_POST['last_name'], $_POST['contact_number'], $_POST['gender'])) {
+    $firstName = $_POST['first_name'];
+    $lastName = $_POST['last_name'];
+    $contactNumber = $_POST['contact_number'];
+    $gender = $_POST['gender'];
+
+    try {
+        $handlers->addNewTenants($firstName, $lastName, $contactNumber, $gender);
+        header("Location: {$_SERVER['PHP_SELF']}");
+        exit();
+    } catch (Exception $e) {
+        $error = 'Error adding new tenant: ' . $e->getMessage();
+    }
+}
+
+
+//Fetch All Tenants
 try {
     $tenants = $tenantsModel->getAllTenants();
 } catch (Exception $e) {
     $error = 'Error fetching tenants data: ' . $e->getMessage();
 }
+//Filter all tenants that not in beds
 $occupiedCustomerIds = array_column(array_filter($beds, function ($bed) {
     return $bed['occupied'] == 1;
 }), 'customer_id');
@@ -32,6 +65,7 @@ $unoccupiedTenants = array_filter($tenants, function ($tenant) use ($occupiedCus
     return !in_array($tenant['customer_id'], $occupiedCustomerIds);
 });
 
+//Fetch Tenants By id
 if (isset($tenantsID)) {
     try {
         $tenants = $tenantsModel->getTenantsByID($tenantsID);
@@ -73,33 +107,30 @@ if (isset($tenantsID)) {
         <tbody>
             <?php foreach ($beds as $bed): ?>
                 <tr>
-                    <td>
-                        <?php echo $bed['beds_id']; ?>
-                    </td>
-                    <td>
-                        <?php echo $bed['room_id']; ?>
-                    </td>
-                    <td>
-                        <?php echo isset($bed['customer_id']) ? $bed['customer_id'] : 'Not Set'; ?>
-                    </td>
-                    <td>
-                        <?php echo $bed['occupied'] ? 'Yes' : 'No'; ?>
-                    </td>
+                    <td><?php echo $bed['beds_id']; ?></td>
+                    <td><?php echo $bed['room_id']; ?></td>
+                    <td><?php echo isset($bed['customer_id']) ? $bed['customer_id'] : 'Not Set'; ?></td>
+                    <td><?php echo $bed['occupied'] ? 'Yes' : 'No'; ?></td>
                     <td>
                         <?php if ($bed['occupied']): ?>
                             <?php
                             $customerUrl = $_SERVER["PHP_SELF"] . "?tenantsID=" . $bed['customer_id'];
                             $removeUrl = $_SERVER["PHP_SELF"] . "?bedID=" . $bed['beds_id'];
                             ?>
+                            <!-- Add button opens details modal with bedId -->
                             <a href="<?= $customerUrl ?>"><button onclick="openDetailsModal()">Details</button></a>
                             <a href="<?= $removeUrl ?>"><button onclick="openRemoveModal()">Remove</button></a>
                         <?php else: ?>
-                            <a href="<?= $removeUrl ?>"><button onclick="openAddModal()">Add</button></a>
+                            <?php
+                            $addUrl = $_SERVER["PHP_SELF"] . "?bedID=" . $bed['beds_id'];
+                            ?>
+                            <!-- Add button opens add modal with bedId -->
+                            <a href="<?= $addUrl ?>"><button onclick="openAddModal()">Add</button></a>
                         <?php endif; ?>
                     </td>
-
                 </tr>
             <?php endforeach; ?>
+
         </tbody>
     </table>
 
@@ -181,7 +212,15 @@ if (isset($tenantsID)) {
                             <td><?php echo $tenant['customer_id']; ?></td>
                             <td><?php echo $tenant['first_name']; ?></td>
                             <td><?php echo $tenant['last_name']; ?></td>
-                            <td><button class="btn" style="margin-left: 10px;"><a href="#">Add</a></button></td>
+                            <td>
+                                <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+                                    <input type="hidden" name="bed_id" value="<?php echo $bedID; ?>">
+                                    <input type="hidden" name="names"
+                                        value="<?php echo $tenant['first_name'] . " " . $tenant['last_name'] ?>">
+                                    <input type="hidden" name="customer_id" value="<?php echo $tenant['customer_id']; ?>">
+                                    <button type="submit" name="addTenant" class="btn">Add</button>
+                                </form>
+                            </td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
@@ -189,11 +228,12 @@ if (isset($tenantsID)) {
         </div>
     </div>
 
+    <!-- Add Tenants Modal  -->
     <div id="addTenantModal" class="modal">
         <div class="addTenant-modal-content">
             <span class="close" onclick="closeAddTenantModal()">&times;</span>
             <h1>Add New Tenant</h1>
-            <form id="editForm" action="../../server/app/addNewTenantsHandler.php" method="POST">
+            <form id="editForm" action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="POST">
                 <label for="first_name">First Name:</label>
                 <input type="text" id="first_name" name="first_name" required><br><br>
 

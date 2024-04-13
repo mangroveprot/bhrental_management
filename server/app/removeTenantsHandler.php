@@ -1,5 +1,7 @@
 <?php
-session_start();
+if (!isset($_SESSION)) {
+    session_start();
+}
 //include ('../database/models/diaries_model.php');
 
 class RemoveTenantsHandler
