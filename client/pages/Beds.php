@@ -73,7 +73,7 @@ if (isset($roomId)) { //If has RoomID then fetch the beds from that room
             $(document).on('click', '.bed_info', function () {
                 var tenantID = $(this).data('id');
                 $.ajax({
-                    url: '../ajax/manage_info_bed.php',
+                    url: '../sub-pages/manage_info_bed.php',
                     type: 'post',
                     data: { tenantID: tenantID },
                     success: function (response) {
@@ -87,7 +87,7 @@ if (isset($roomId)) { //If has RoomID then fetch the beds from that room
             $(document).on('click', '.assign_tenant', function () {
                 var bedID = $(this).data('id');
                 $.ajax({
-                    url: '../ajax/manage_assign_bed.php',
+                    url: '../sub-pages/manage_assign_bed.php',
                     type: 'post',
                     data: { bedID: bedID },
                     success: function (response) {
@@ -102,7 +102,7 @@ if (isset($roomId)) { //If has RoomID then fetch the beds from that room
                 var bedID = $(this).data('id');
                 console.log(bedID);
                 $.ajax({
-                    url: '../ajax/manage_removeTenant_bed.php',
+                    url: '../sub-pages/manage_removeTenant_bed.php',
                     type: 'post',
                     data: { bedID: bedID },
                     success: function (response) {

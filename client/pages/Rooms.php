@@ -75,7 +75,7 @@ try {
                 $(document).on('click', '#new_room', function () {
                     var tenantsID = $(this).data('id');
                     $.ajax({
-                        url: '../ajax/manage_add_room.php',
+                        url: '../sub-pages/manage_add_room.php',
                         success: function (response) {
                             $('.modal-body').html(response);
                             $('.modal-title').text('Create New Room');

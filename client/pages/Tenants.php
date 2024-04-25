@@ -65,7 +65,7 @@ try {
             $(document).on('click', '.edit_tenant', function () {
                 var tenantsID = $(this).data('id');
                 $.ajax({
-                    url: '../ajax/manage_edit_tenant.php',
+                    url: '../sub-pages/manage_edit_tenant.php',
                     type: 'post',
                     data: { tenantsID: tenantsID },
                     success: function (response) {
@@ -80,7 +80,7 @@ try {
                 var tenantsID = $(this).data('id');
                 console.log(tenantsID);
                 $.ajax({
-                    url: '../ajax/manage_delete_tenant.php',
+                    url: '../sub-pages/manage_delete_tenant.php',
                     type: 'post',
                     data: { tenantsID: tenantsID },
                     success: function (response) {
@@ -95,7 +95,7 @@ try {
                 var tenantsID = $(this).data('id');
                 console.log(tenantsID);
                 $.ajax({
-                    url: '../ajax/manage_add_tenant.php',
+                    url: '../sub-pages/manage_add_tenant.php',
                     type: 'post',
                     data: { tenantsID: tenantsID },
                     success: function (response) {
