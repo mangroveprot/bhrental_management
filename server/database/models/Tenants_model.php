@@ -24,9 +24,6 @@ class TenantsModel
     }
     public function getTenantsByID($tenantID)
     {
-        if (empty($tenantID)) {
-            throw new Exception("No Tenant ID included!");
-        }
         try {
             $stmt = $this->connect->prepare('SELECT * FROM customer WHERE customer_id = :customerID');
             $stmt->bindParam(':customerID', $tenantID);
@@ -40,17 +37,50 @@ class TenantsModel
 
     public function addNewTenants($firstName, $lastName, $contactNumber, $gender)
     {
+        $stmt = $this->connect->prepare('INSERT INTO customer (first_name, last_name, contact_number, gender) VALUES (:firstName, :lastName, :contactNumber, :gender)');
+        $stmt->bindParam(':firstName', $firstName);
+        $stmt->bindParam(':lastName', $lastName);
+        $stmt->bindParam(':contactNumber', $contactNumber);
+        $stmt->bindParam(':gender', $gender);
+        $stmt->execute();
+        if ($stmt->rowCount() > 0) {
+            return 0;
+        } else {
+            return 1;
+        }
+    }
+
+    public function updateTenant($tenantID, $firstName, $lastName, $contactNumber, $gender)
+    {
+
+        $stmt = $this->connect->prepare('UPDATE customer SET first_name = :firstName, last_name = :lastName, contact_number = :contactNumber, gender = :gender WHERE customer_id = :customerID');
+        $stmt->bindParam(':firstName', $firstName);
+        $stmt->bindParam(':lastName', $lastName);
+        $stmt->bindParam(':contactNumber', $contactNumber);
+        $stmt->bindParam(':gender', $gender);
+        $stmt->bindParam(':customerID', $tenantID);
+        $stmt->execute();
+        if ($stmt->rowCount() > 0) {
+            return 0;
+        } else {
+            return 1;
+        }
+    }
+
+    public function deleteTenant($tenantID)
+    {
         try {
-            $stmt = $this->connect->prepare('INSERT INTO customer (first_name, last_name, contact_number, gender) VALUES (:firstName, :lastName, :contactNumber, :gender)');
-            $stmt->bindParam(':firstName', $firstName);
-            $stmt->bindParam(':lastName', $lastName);
-            $stmt->bindParam(':contactNumber', $contactNumber);
-            $stmt->bindParam(':gender', $gender);
+            $stmt = $this->connect->prepare('DELETE FROM customer WHERE customer_id = :customerID');
+            $stmt->bindParam(':customerID', $tenantID);
             $stmt->execute();
-            return true;
+            if ($stmt->rowCount() > 0) {
+                return 0;
+            } else {
+                return 1;
+            }
         } catch (PDOException $e) {
-            throw new Exception("Error adding new tenant: " . $e->getMessage());
-            return false;
+            throw new Exception("Error deleting tenant: " . $e->getMessage());
+            error_log("" . $e->getMessage());
         }
     }
 

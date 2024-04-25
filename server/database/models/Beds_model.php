@@ -41,35 +41,37 @@ class BedModel
         return $beds;
     }
 
-    public function removeTenants($bedId)
+    public function removeTenants($bedID)
     {
         try {
-            // Update the customer_id to null (empty string) to remove the tenant
             $stmt = $this->connect->prepare('UPDATE beds SET customer_id = NULL WHERE beds_id = :beds_id');
-            $stmt->bindParam(':beds_id', $bed['beds_id']);
+            $stmt->bindParam(':beds_id', $bedID);
             $stmt->execute();
-            return true;
+            if ($stmt->rowCount() > 0) {
+                return 0;
+            } else {
+                return 1;
+            }
         } catch (PDOException $e) {
             throw new Exception("Error removing tenants: " . $e->getMessage());
-            return false;
         }
     }
 
-    public function assignCustomerToBed($bedId, $customerId)
+    public function assignTenantToBed($bedID, $tenantID)
     {
         try {
             $stmt = $this->connect->prepare('UPDATE beds SET customer_id = :customerId WHERE beds_id = :bedId');
-            $stmt->bindParam(':customerId', $customerId);
-            $stmt->bindParam(':bedId', $bedId);
+            $stmt->bindParam(':customerId', $tenantID);
+            $stmt->bindParam(':bedId', $bedID);
             $stmt->execute();
-            return true;
+            if ($stmt->rowCount() > 0) {
+                return 0;
+            } else {
+                return 1;
+            }
         } catch (PDOException $e) {
             throw new Exception("Error assigning customer to bed: " . $e->getMessage());
-            return false;
         }
     }
-
-
-    // You can add more methods as needed for updating beds, fetching specific beds, etc.
 }
 ?>

@@ -1,63 +1,64 @@
 <?php
-if (!isset($_SESSION)) {
-    session_start();
-}
+ob_start();
+$action = isset($_GET['action']) ? $_GET['action'] : null;
 include_once ('../../server/database/models/tenants_model.php');
 include_once ('../../server/database/models/beds_model.php');
 
-class Handlers
-{
-    private $tenantsModel;
-    private $bedsModel;
+$tenantsModel = new TenantsModel();
+$bedsModel = new BedModel();
 
-    public function __construct()
-    {
-        $this->tenantsModel = new TenantsModel();
-        $this->bedsModel = new BedModel();
-    }
+if ($action == 'update-tenant') {
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $tenantID = $_POST['tenantID'];
+        $firstName = $_POST['firstName'];
+        $lastName = $_POST['lastName'];
+        $gender = $_POST['gender'];
+        $contactNumber = $_POST['contactNumber'];
 
-    public function addNewTenants($firstName, $lastName, $contactNumber, $gender)
-    {
-        $firstName = htmlspecialchars($firstName);
-        $lastName = htmlspecialchars($lastName);
-        $contactNumber = htmlspecialchars($contactNumber);
-        $gender = htmlspecialchars($gender);
-
-        try {
-            $success = $this->tenantsModel->addNewTenants($firstName, $lastName, $contactNumber, $gender);
-
-            if ($success) {
-                $successMessage = "Tenant $firstName $lastName added successfully";
-                $_SESSION['successMessage'] = $successMessage;
-            } else {
-                $errorMessage = "Failed to add new tenants";
-                $_SESSION['error'] = $errorMessage;
-            }
-        } catch (Exception $e) {
-            $errorMessage = "Failed to add new tenants. Error: " . $e->getMessage();
-            $_SESSION['error'] = $errorMessage;
-        }
-    }
-
-    public function addTenantInBed($tenantID, $bedID, $names)
-    {
-        $bedId = htmlspecialchars($bedID);
-        $customerId = htmlspecialchars($tenantID);
-        $name = htmlspecialchars($names);
-        try {
-            $success = $this->bedsModel->assignCustomerToBed($bedId, $customerId);
-
-            if ($success) {
-                $successMessage = $name . "has been in beed " . $bedId . "successfully!";
-                $_SESSION['successMessage'] = $successMessage;
-            } else {
-                $errorMessage = "Failed to add tenants in bed " . $bedId . ". Please Try Again Later!";
-                $_SESSION['error'] = $errorMessage;
-            }
-        } catch (Exception $e) {
-            $errorMessage = "Failed to add tenants in bed. Error: " . $e->getMessage();
-            $_SESSION['error'] = $errorMessage;
-        }
+        $response = $tenantsModel->updateTenant($tenantID, $firstName, $lastName, $contactNumber, $gender);
+        echo $response;
+        exit;
     }
 }
+
+if ($action == 'add-tenant') {
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $firstName = $_POST['firstName'];
+        $lastName = $_POST['lastName'];
+        $gender = $_POST['gender'];
+        $contactNumber = $_POST['contactNumber'];
+
+        $response = $tenantsModel->addNewTenants($firstName, $lastName, $contactNumber, $gender);
+        echo $response;
+        exit;
+    }
+}
+
+if ($action == 'delete-tenant') {
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $tenantID = $_POST['tenantID'];
+        $response = $tenantsModel->deleteTenant($tenantID);
+        echo $response;
+        exit;
+    }
+}
+if ($action == 'assign-bed') {
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $tenantID = $_POST['tenantID'];
+        $bedID = $_POST['bedID'];
+        $response = $bedsModel->assignTenantToBed($bedID, $tenantID);
+        echo $response;
+        exit;
+    }
+}
+if ($action == 'remove-tenant-bed') {
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $bedID = $_POST['bedID'];
+        $response = $bedsModel->removeTenants($bedID);
+        echo $response;
+        exit;
+    }
+}
+
+ob_end_flush();
 ?>

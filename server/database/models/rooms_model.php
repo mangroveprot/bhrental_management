@@ -27,7 +27,11 @@ class RoomModel
                 $beds = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 $room['beds'] = $beds;
 
-                $stmt = $this->connect->prepare('SELECT COUNT(*) AS total_beds, SUM(CASE WHEN occupied = 0 THEN 1 ELSE 0 END) AS available_beds FROM beds WHERE room_id = :roomId');
+                $stmt = $this->connect->prepare('SELECT COUNT(*) AS total_beds,
+                SUM(CASE WHEN customer_id IS NULL THEN 1 ELSE 0 END) AS available_beds,
+                SUM(CASE WHEN customer_id IS NOT NULL THEN 1 ELSE 0 END) AS occupied_beds
+                FROM beds WHERE room_id = :roomId
+                ');
                 $stmt->bindParam(':roomId', $roomId);
                 $stmt->execute();
 
@@ -47,17 +51,31 @@ class RoomModel
         return $rooms;
     }
 
-    public function addRoom($roomName)
+    public function addRoomWithBeds($roomName, $numBeds)
     {
         try {
+            $this->connect->beginTransaction();
+
+            // Insert room
             $stmt = $this->connect->prepare('INSERT INTO room (room_name) VALUES (:roomName)');
             $stmt->bindParam(':roomName', $roomName);
             $stmt->execute();
-            return true;
+            $roomId = $this->connect->lastInsertId();
+
+            // Insert beds
+            for ($i = 0; $i < $numBeds; $i++) {
+                $stmt = $this->connect->prepare('INSERT INTO beds (room_id) VALUES (:roomId)');
+                $stmt->bindParam(':roomId', $roomId);
+                $stmt->execute();
+            }
+
+            $this->connect->commit();
+            return 0;
         } catch (PDOException $e) {
-            throw new Exception("Error adding room: " . $e->getMessage());
+            $this->connect->rollBack();
+            throw new Exception("Error adding room with beds: " . $e->getMessage());
         }
-        return false;
+        return 1;
     }
 
     public function removeRoom($roomId)
