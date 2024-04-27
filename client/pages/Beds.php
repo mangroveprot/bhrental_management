@@ -3,22 +3,6 @@ include ('../../server/database/models/beds_model.php');
 $bedModel = new BedModel();
 $roomId = $_GET['room_id'] ?? null;
 
-$t = 9;
-$b = $bedModel->getAllBeds();
-$bedsWithCustomerIds = array_filter($b, function ($bed) {
-    return !empty ($bed['customer_id']);
-});
-
-$bedId = null;
-foreach ($bedsWithCustomerIds as $bed) {
-    if ($bed['customer_id'] == $t) {
-        $bedId = $bed['beds_id'];
-        break;
-    }
-}
-
-echo $bedId;
-
 if (isset($roomId)) { //If has RoomID then fetch the beds from that room
     try {
         $beds = $bedModel->getBedsByRoomId($roomId);

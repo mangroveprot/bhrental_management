@@ -119,7 +119,7 @@ foreach ($tenants as $tenant) {
                 if (response == 0) {
                     $.toast({
                         heading: 'Success',
-                        text: 'Assign Successfully!',
+                        text: 'Successfully Created!',
                         showHideTransition: 'slide',
                         icon: 'success',
                         position: 'top-right',
@@ -131,7 +131,7 @@ foreach ($tenants as $tenant) {
                 } else {
                     $.toast({
                         heading: 'Error',
-                        text: 'Error while assigning. Please Try Again!',
+                        text: 'Error while adding entry. Please Try Again!',
                         showHideTransition: 'slide',
                         icon: 'error',
                         position: 'top-right',
