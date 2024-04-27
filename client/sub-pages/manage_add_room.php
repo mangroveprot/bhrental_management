@@ -15,7 +15,7 @@
         <div class="invalid-feedback">Please enter room name.</div>
     </div>
 
-    <div class="form-row">
+    <div class="form-group">
         <div class="form-group col-md-6">
             <label for="beds_capacity">Beds Capacity</label>
             <input type="text" class="form-control" id="beds_capacity" name="beds_capacity" placeholder="0" required>

@@ -4,5 +4,5 @@ if (!isset($_SESSION)) {
     session_start();
 }
 
-header("Location: client/pages/Home_page.php");
+header("Location: client/pages/Dashboard.php");
 ?>

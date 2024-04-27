@@ -8,17 +8,17 @@ $tenantsModel = new TenantsModel();
 $allTransactions = $paymentsModel->getAllPayments();
 $tenants = $tenantsModel->getAllTenants();
 
-$customerIdsWithTransactions = array();
-foreach ($allTransactions as $transaction) {
-    $customerIdsWithTransactions[] = $transaction['customer_id'];
-}
+// $customerIdsWithTransactions = array();
+// foreach ($allTransactions as $transaction) {
+//     $customerIdsWithTransactions[] = $transaction['customer_id'];
+// }
 
-$customersWithoutPayments = array();
-foreach ($tenants as $tenant) {
-    if (!in_array($tenant['customer_id'], $customerIdsWithTransactions)) {
-        $customersWithoutPayments[] = $tenant;
-    }
-}
+// $customersWithoutPayments = array();
+// foreach ($tenants as $tenant) {
+//     if (!in_array($tenant['customer_id'], $customerIdsWithTransactions)) {
+//         $customersWithoutPayments[] = $tenant;
+//     }
+// }
 ?>
 <style>
     .hide {
@@ -34,7 +34,7 @@ foreach ($tenants as $tenant) {
 
                 <option value="" disabled selected>Please choose a tenant</option>
                 <?php
-                foreach ($customersWithoutPayments as $tenant):
+                foreach ($tenants as $tenant):
                     ?>
                     <option value="<?php echo $tenant['customer_id'] ?> data-customer-id=" <?php echo $tenant['customer_id']; ?>>
                         <?php echo ucwords($tenant['first_name'] . ' ' . $tenant['last_name']) ?>

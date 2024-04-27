@@ -3,79 +3,161 @@ body {
   margin: 0;
   padding: 0;
 }
-div.container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px;
-  background-color: #f0f0f0;
+.header {
+  background-color: blue;
+  color: white;
+  padding: 5px;
+  text-align: center;
 }
-h1 {
+
+.sidebar li {
+  display: flex;
+  align-items: center;
+}
+
+.sidebar li img {
+  margin-right: 10px; /* Adjust this value to set the desired space */
+}
+
+.sidebar {
+  position: absolute;
+  left: 0;
+  width: 200px;
+  background-color: #333;
+  color: white;
+  padding: 20px;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.sidebar ul {
+  list-style-type: none;
+  padding: 0;
   margin: 0;
 }
-button {
-  padding: 10px 20px;
-  background-color: #007bff;
+
+.sidebar li {
+  margin-bottom: 10px;
+}
+
+.sidebar a {
+  text-decoration: none;
+  color: #fff;
+  padding: 10px;
+  display: block;
+  border-radius: 5px;
+}
+
+.sidebar a:hover {
+  background-color: white; /* Highlight on hover */
+  color: #333; /* Change text color */
+}
+
+.container {
+  display: flex;
+}
+
+.content_wrapper {
+  flex-grow: 1;
+  padding-top: 3rem;
+  margin-left: 10.5rem;
+}
+
+/*Dashboard*/
+.gray-rectangle {
+  background-color: lightgray;
+  border: 2px solid #333;
+  border-radius: 10px;
+  padding: 20px;
+  display: flex;
+  flex-direction: row; 
+  gap: 4rem;
+}
+.box {
+  width: 270px;
+  height: 200px;
+  border: 2px solid #333;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 10px;
+}
+.green-box {
+  background-color: lightgreen;
+}
+.yellow-box {
+  background-color: lightyellow;
+}
+.orange-box {
+  background-color: orange;
+}
+/* Style for Category Form */
+.category-form {
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin-right: 50px;
+  background-color: #f9f9f9;
+  width: 40;
+  height: calc(
+    50% - 40px
+  ); /* Half the height of its container, considering the padding */
+}
+
+.category-form h2 {
+  margin-top: 0;
+}
+
+.category-name {
+  margin-bottom: 15px;
+}
+
+.category-name label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.category-name input[type="text"] {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.rectangular-box {
+  height: 100px; /* Adjust height as needed */
+  background-color: #ccc;
+  margin-bottom: 15px;
+}
+
+.action-buttons button {
+  padding: 8px 15px;
+  margin-right: 10px;
   border: none;
-  color: white;
-  font-size: 16px;
+  border-radius: 4px;
   cursor: pointer;
 }
-button a {
-  text-decoration: none;
-  color: inherit;
+
+.action-buttons button:last-child {
+  margin-right: 0;
 }
 
-table {
-  border-collapse: collapse;
-  width: 100%;
-}
-
-th,
-td {
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: left;
-}
-
-th {
-  background-color: #f2f2f2;
-}
-
-.error {
-  color: red;
-}
-
-.successMessage {
-  color: limegreen;
-}
-
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.4);
-}
-
-.details-modal-content {
-  background-color: #fefefe;
-  margin: 15% auto;
+/* Style for Category List */
+.category-list-container {
+  border: 1px solid #ccc;
   padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
+  background-color: #f9f9f9;
 }
 
-.addTenant-modal-content {
-  background-color: #fefefe;
-  margin: 5% auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
-  height: 80%;
-  overflow: auto;
+.category-list-container h2 {
+  margin-top: 0;
+}
+
+.entries {
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.entries:hover {
+  background-color: #ddd;
 }
