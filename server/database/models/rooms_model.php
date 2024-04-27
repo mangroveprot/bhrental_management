@@ -51,18 +51,17 @@ class RoomModel
         return $rooms;
     }
 
-    public function addRoomWithBeds($roomName, $numBeds)
+    public function addRoomWithBeds($roomName, $numBeds, $roomPrice)
     {
         try {
             $this->connect->beginTransaction();
 
-            // Insert room
-            $stmt = $this->connect->prepare('INSERT INTO room (room_name) VALUES (:roomName)');
+            $stmt = $this->connect->prepare('INSERT INTO room (room_name, room_price) VALUES (:roomName, :roomPrice)');
             $stmt->bindParam(':roomName', $roomName);
+            $stmt->bindParam(':roomPrice', $roomPrice);
             $stmt->execute();
             $roomId = $this->connect->lastInsertId();
 
-            // Insert beds
             for ($i = 0; $i < $numBeds; $i++) {
                 $stmt = $this->connect->prepare('INSERT INTO beds (room_id) VALUES (:roomId)');
                 $stmt->bindParam(':roomId', $roomId);

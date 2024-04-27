@@ -1,34 +1,35 @@
 <?php
 session_start();
-$tenantsID = $_POST['tenantsID'] ?? null;
+$transactionID = $_POST['transaction'] ?? null;
 ?>
 <style>
     .hide {
         display: none;
     }
 </style>
-<span>Are you sure you want to delete this tenant?</span>
+<span>Are you sure you want to delete this transaction?</span>
 <div class="modal-footer">
-    <button type="button" class="btn btn-danger deleteTenant">
+    <button type="button" class="btn btn-danger deleteTransaction">
         <span class="loading spinner-border spinner-border-sm hide" role="status" aria-hidden="true"></span>
-        <span class="btn-text" data-id="<?php echo $tenantsID; ?>">Delete</span>
+        <span class="btn-text" data-id="<?php echo $transactionID; ?>">Delete</span>
     </button>
     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 </div>
 
 <script>
     $(document).ready(function () {
-        var tenantsID = $(this).data('id');
-        $('.deleteTenant').click(function (event) {
+        var tID = $(this).data('id');
+        $('.deleteTransaction').click(function (event) {
             event.preventDefault();
-            var tenantsID = $(this).find('.btn-text').data('id');
+            var tID = $(this).find('.btn-text').data('id');
+            console.log(tID);
             $('.loading').removeClass('hide');
             $('.btn').attr('disabled', true);
             $('.btn-text').text('Deleting...');
             $.ajax({
-                url: '../../server/app/actionsHandler.php?action=delete-tenant',
+                url: '../../server/app/actionsHandler.php?action=delete-transaction',
                 type: 'post',
-                data: { tenantID: tenantsID },
+                data: { tID: tID },
                 success: function (response) {
                     console.log(response);
                     if (response == 0) {
@@ -45,8 +46,8 @@ $tenantsID = $_POST['tenantsID'] ?? null;
                         }, 2500)
                     } else {
                         $.toast({
-                            heading: 'Notice',
-                            text: 'Please Remove This Tenant In Bed, Before Proceeding!',
+                            heading: 'Error',
+                            text: 'Error while deleting the transaction!!',
                             showHideTransition: 'slide',
                             icon: 'info',
                             position: 'top-right',
@@ -62,7 +63,7 @@ $tenantsID = $_POST['tenantsID'] ?? null;
                     console.error(error);
                     $.toast({
                         heading: 'Success',
-                        text: 'Error while saving. Please Try Again!',
+                        text: 'Server Error!',
                         showHideTransition: 'slide',
                         icon: 'error',
                         position: 'top-right',

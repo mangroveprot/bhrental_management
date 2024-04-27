@@ -1,3 +1,6 @@
+<?php
+
+?>
 <style>
     .hide {
         display: none;

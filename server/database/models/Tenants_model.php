@@ -1,7 +1,8 @@
 <?php
 
 require_once dirname(__DIR__, 2) . '/database/db_connections.php';
-
+include_once ('beds_model.php');
+$bedsModal = new BedModel();
 class TenantsModel
 {
     private $connect;
@@ -70,6 +71,25 @@ class TenantsModel
     public function deleteTenant($tenantID)
     {
         try {
+            $bedsModel = new BedModel();
+
+            $b = $bedsModel->getAllBeds();
+            $bedsWithCustomerIds = array_filter($b, function ($bed) {
+                return !empty ($bed['customer_id']);
+            });
+
+            $bedId = null;
+            foreach ($bedsWithCustomerIds as $bed) {
+                if ($bed['customer_id'] == $tenantID) {
+                    $bedId = $bed['beds_id'];
+                    break;
+                }
+            }
+
+            if (isset($bedId)) {
+                $bedsModel->removeTenants($bedId);
+            }
+
             $stmt = $this->connect->prepare('DELETE FROM customer WHERE customer_id = :customerID');
             $stmt->bindParam(':customerID', $tenantID);
             $stmt->execute();

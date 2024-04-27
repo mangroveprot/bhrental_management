@@ -34,6 +34,7 @@ try {
                         <tr class="text-center">
                             <th>#</th>
                             <th>Room Name</th>
+                            <th>Room Price</th>
                             <th>Availability</th>
                             <th>Action</th>
                         </tr>
@@ -46,6 +47,9 @@ try {
                                 </td>
                                 <td class="text-center">
                                     <?php echo $room['room_name']; ?>
+                                </td>
+                                <td class="text-center">
+                                    ₱<?php echo $room['room_price']; ?>.00
                                 </td>
                                 <td class="text-center">
                                     <?php echo $room['availability']; ?>
