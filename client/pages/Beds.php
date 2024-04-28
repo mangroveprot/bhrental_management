@@ -54,7 +54,7 @@ if (isset($roomId)) { //If has RoomID then fetch the beds from that room
                                 <?php foreach ($beds as $bed): ?>
                                     <tr>
                                         <td class="text-center"><?php echo $bed['beds_id']; ?></td>
-                                        <td>
+                                        <td class="text-center">
                                             <?php
                                             $rID = $bed['room_id'] ?? null;
                                             $roomData = $roomModel->getRoomByID($rID);
