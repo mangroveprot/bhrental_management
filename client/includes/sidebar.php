@@ -1,24 +1,25 @@
 <h2>Menu</h2>
+<br>
 <ul>
     <li>
-        <a href="Dashboard.php">
-            <img src="assets/Dashboard-3--Streamline-Flex.png" width="20" height="20" />Dashboard</a>
+        <a href="Dashboard.php" style="font-weight: bold;">
+            <img src="../assets/dash.png" width="20" height="20" />Dashboard</a>
     </li>
     <li>
-        <a href="Rooms.php">
-            <img src="assets/room.svg" width="20" height="20" />Room</a>
+        <a href="Rooms.php" style="font-weight: bold;">
+            <img src="../assets/room.png" width="20" height="20" />Room</a>
     </li>
     <li>
-        <a href="Beds.php">
-            <img src="assets/roomtype.svg" width="20" height="20" />Beds</a>
+        <a href="Beds.php" style="font-weight: bold;">
+            <img src="../assets/bed.png" width="20" height="20" />Beds</a>
     </li>
     <li>
-        <a href="Tenants.php">
-            <img src="assets/tenants.svg" width="20" height="20" />Tenants</a>
+        <a href="Tenants.php" style="font-weight: bold;">
+            <img src="../assets/tenants.png" width="20" height="20" />Tenants</a>
     </li>
     <li>
-        <a href="Payments.php">
-            <img src="assets/roomtype.svg" width="20" height="20" />Payments</a>
+        <a href="Payments.php" style="font-weight: bold;">
+            <img src="../assets/pay.png" width="20" height="20" />Payments</a>
     </li>
 
 </ul>

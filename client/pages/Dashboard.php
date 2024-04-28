@@ -34,28 +34,35 @@ $numTenants = count($tenants);
                 <!-- Boxes -->
                 <div class="box orange-box">
                     <a href="Rooms.php">
-                        <img src="home.svg" width="40" height="40" />
+                        <img src="../assets/room.png" width="40" height="40" />
+                     
                     </a>
+                    
                     <h2>Total Rooms</h2>
-                    <p><b><?php echo $numRooms ?></b></p>
-                    <a href="#">View List</a>
+                    <br>
+                    <br>
+                    <br>
+                    <a href="Rooms.php">View List</a>
                 </div>
                 <div class="box yellow-box">
                     <a href="Tenants.php">
-                        <img src="assets/user.svg" width="40" height="40" />
+                        <img src="../assets/tenants.png" width="40" height="40" />
+                      
                     </a>
                     <h2>Total Tenants</h2>
-                    <p><b><?php echo $numTenants; ?></b></p>
-                    <a href="#">View List</a>
+                    <br>
+                    <br>
+                    <br>
+                    <a href="Tenants.php">View List</a>
                 </div>
                 <div class="box green-box">
                     <a href="Payments.php">
-                        <img src="assets/pay.webp" width="40" height="40" />
+                        <img src="../assets/pay.png" width="40" height="40" />
                     </a>
-                    <h2>Payments</h2>
+                    <h2>Payments This Month</h2>
+                    <br>
                     <ul>
-                        <p><b>Payments This Month</b></p>
-                        <a href="#">View Payments</a>
+                        <a href="Payments.php">View Payments</a>
                     </ul>
                 </div>
             </div>

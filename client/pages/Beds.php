@@ -1,5 +1,9 @@
 <?php
 include ('../../server/database/models/beds_model.php');
+include ('../../server/database/models/tenants_model.php');
+include ('../../server/database/models/rooms_model.php');
+$roomModel = new RoomModel();
+$tenantsModel = new TenantsModel();
 $bedModel = new BedModel();
 $roomId = $_GET['room_id'] ?? null;
 
@@ -35,13 +39,13 @@ if (isset($roomId)) { //If has RoomID then fetch the beds from that room
                         <b>List of Beds</b>
                     </div>
                     <?php include_once ('../includes/messageHandler.php'); ?>
-                    <div class="table-responsive">
-                        <table class="table table-bordered">
+                    <div class="table-responsive" style="height: 400px; width: 100%; overflow-y: auto;">
+                        <table class="table table-bordered" style="width: =50%;">
                             <thead>
-                                <tr>
+                                <tr class="text-center">
                                     <th>Bed ID</th>
-                                    <th>Room ID</th>
-                                    <th>Customer ID</th>
+                                    <th>Room Name</th>
+                                    <th>Tenant</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -49,9 +53,26 @@ if (isset($roomId)) { //If has RoomID then fetch the beds from that room
                                 <!-- Output all the beds that has been fetch -->
                                 <?php foreach ($beds as $bed): ?>
                                     <tr>
-                                        <td><?php echo $bed['beds_id']; ?></td>
-                                        <td><?php echo $bed['room_id']; ?></td>
-                                        <td><?php echo isset($bed['customer_id']) ? $bed['customer_id'] : 'Not Set'; ?></td>
+                                        <td class="text-center"><?php echo $bed['beds_id']; ?></td>
+                                        <td>
+                                            <?php
+                                            $rID = $bed['room_id'] ?? null;
+                                            $roomData = $roomModel->getRoomByID($rID);
+                                            echo $roomData['room_name'];
+                                            ?>
+                                        </td>
+                                        <td class="text-center">
+                                            <?php
+                                            if (isset($bed['customer_id'])) {
+                                                $tID = $bed['customer_id'];
+                                                $getData = $tenantsModel->getTenantsByID($tID);
+                                                $getName = $getData[0];
+                                                echo ucwords($getName['first_name'] . ' ' . $getName['last_name']);
+                                            } else {
+                                                echo 'Not Set';
+                                            }
+                                            ?>
+                                        </td class="text-center">
                                         <td class="text-center">
                                             <?php if ($bed['customer_id']): ?>
                                                 <!-- open the bed info modal -->

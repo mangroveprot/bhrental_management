@@ -37,7 +37,7 @@ try {
                     <div class="table-responsive">
                         <table class="table table-bordered">
                             <thead>
-                                <tr>
+                                <tr class="text-center">
                                     <th>Customer ID</th>
                                     <th>First Name</th>
                                     <th>Last Name</th>
@@ -49,11 +49,11 @@ try {
                             <tbody>
                                 <?php foreach ($tenants as $tenant): ?>
                                     <tr>
-                                        <td><?php echo $tenant['customer_id']; ?></td>
-                                        <td><?php echo $tenant['first_name']; ?></td>
-                                        <td><?php echo $tenant['last_name']; ?></td>
-                                        <td><?php echo $tenant['contact_number']; ?></td>
-                                        <td><?php echo $tenant['gender']; ?></td>
+                                        <td class="text-center"><?php echo $tenant['customer_id']; ?></td>
+                                        <td class="text-center"><?php echo $tenant['first_name']; ?></td>
+                                        <td class="text-center"><?php echo $tenant['last_name']; ?></td>
+                                        <td class="text-center"><?php echo $tenant['contact_number']; ?></td>
+                                        <td class="text-center"><?php echo $tenant['gender']; ?></td>
                                         <td class="text-center">
                                             <button class="btn btn-sm btn-outline-primary edit_tenant" type="button"
                                                 data-id="<?php echo $tenant['customer_id']; ?>"> Edit</button>

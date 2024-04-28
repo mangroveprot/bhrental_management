@@ -51,6 +51,45 @@ class RoomModel
         return $rooms;
     }
 
+    public function getRoomByID($roomId)
+    {
+        try {
+            $stmt = $this->connect->prepare('SELECT * FROM room WHERE room_id = :roomId');
+            $stmt->bindParam(':roomId', $roomId);
+            $stmt->execute();
+            $room = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$room) {
+                throw new Exception("Room with ID {$roomId} not found");
+            }
+
+            $stmt = $this->connect->prepare('SELECT * FROM beds WHERE room_id = :roomId');
+            $stmt->bindParam(':roomId', $roomId);
+            $stmt->execute();
+            $beds = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $room['beds'] = $beds;
+
+            $stmt = $this->connect->prepare('SELECT COUNT(*) AS total_beds,
+            SUM(CASE WHEN customer_id IS NULL THEN 1 ELSE 0 END) AS available_beds,
+            SUM(CASE WHEN customer_id IS NOT NULL THEN 1 ELSE 0 END) AS occupied_beds
+            FROM beds WHERE room_id = :roomId');
+            $stmt->bindParam(':roomId', $roomId);
+            $stmt->execute();
+
+            $availability = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($availability && isset($availability['available_beds']) && isset($availability['total_beds'])) {
+                $room['availability'] = $availability['available_beds'] . '/' . $availability['total_beds'];
+            } else {
+                $room['availability'] = 'Data Unavailable';
+                $errorInfo = $stmt->errorInfo();
+                throw new Exception("Error: Unable to fetch availability data for room ID {$roomId}. Error Info: " . implode(", ", $errorInfo));
+            }
+
+            return $room;
+        } catch (PDOException $e) {
+            throw new Exception("Error while fetching room: " . $e->getMessage());
+        }
+    }
     public function addRoomWithBeds($roomName, $numBeds, $roomPrice)
     {
         try {

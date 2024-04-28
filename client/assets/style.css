@@ -70,16 +70,17 @@ body {
   border-radius: 10px;
   padding: 20px;
   display: flex;
-  flex-direction: row; 
-  gap: 4rem;
+  flex-direction: row; /* Make the boxes appear beside each other */
+  justify-content: space-between;
+  height: 86%;
 }
 .box {
   width: 270px;
-  height: 200px;
+  height: 230px;
   border: 2px solid #333;
   border-radius: 10px;
   padding: 20px;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 .green-box {
   background-color: lightgreen;
